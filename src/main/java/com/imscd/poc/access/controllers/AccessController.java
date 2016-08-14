@@ -35,6 +35,24 @@ public class AccessController {
         }
     }
 
+    /**
+     * Generates a JWT with no time limit.
+     * @param login
+     * @param apiKey
+     * @return
+     */
+    @RequestMapping(value = "/fulltime", method = RequestMethod.POST)
+    public Map<String, String> fulltime(@RequestParam(value = "login") String login,
+                          @RequestHeader(value = "Authorization") String apiKey) {
+
+        if (accountsService.checkApiKey(apiKey)) {
+            return jwtManager.buildFullTimeToken(apiKey, login);
+        } else {
+            logger.error("Invalid API key.");
+            throw new BadCredentials(String.format("Bad credentials for the user %s", login));
+        }
+    }
+
     @RequestMapping(value = "/signin", method = {RequestMethod.POST})
     public Map<String, String> confirmAccess(@RequestParam(value = "login") String login,
                                @RequestParam(value = "pwd") String password,
@@ -52,22 +70,6 @@ public class AccessController {
             logger.error(String.format("Bad credentials for the user %s", login));
             throw new BadCredentials(String.format("Bad credentials for the user %s", login));
         }
-
-/*
-        BasicJWTManager jwt = new BasicJWTManager();
-        if (token == null) {
-
-            token = jwt.buildToken();
-        }
-
-        logger.info(token);
-        if (!jwt.isValidToken(token)) {
-            logger.info("Token is INVALID");
-        } else {
-            Map<String, Object> claims = jwt.getClaims(token);
-            logger.info(claims.toString());
-        }
-*/
     }
 
 }

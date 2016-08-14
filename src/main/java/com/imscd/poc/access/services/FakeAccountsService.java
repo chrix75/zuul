@@ -52,6 +52,14 @@ public class FakeAccountsService implements AccountsService {
                 new Account("batman", "robin")
         );
 
+        accountsRepo.addAccount(
+                new Account("admin", "mabo")
+        );
+
+        accountsRepo.addAccount(
+                new Account("user", "mabo")
+        );
+
         apiKeysRepo.addApiKey("4b21f7db-b0a1-47a3-9007-a0547c7104cd");
 
         // API key for internal services

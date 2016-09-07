@@ -41,10 +41,12 @@ public class AccessController {
      * @param apiKey
      * @return
      */
+
     @RequestMapping(value = "/fulltime", method = RequestMethod.POST)
     public Map<String, String> fulltime(@RequestParam(value = "login") String login,
                           @RequestHeader(value = "Authorization") String apiKey) {
 
+        //comment
         if (accountsService.checkApiKey(apiKey)) {
             return jwtManager.buildFullTimeToken(apiKey, login);
         } else {
